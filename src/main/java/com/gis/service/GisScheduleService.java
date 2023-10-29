@@ -87,15 +87,6 @@ public class GisScheduleService {
 
     }
 
-//    public String validationScheduler(String schedulerName) {
-//
-//        String threadNamePrefix = scheduler.getThreadNamePrefix();
-//        if (schedulerName.equals(threadNamePrefix)) {
-//            return "ok";
-//        }
-//
-//    }
-
     public void callGisService() {
 
         log.info("================================================");

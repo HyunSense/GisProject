@@ -101,36 +101,9 @@ public class GisService {
 
     public String extractMostRecentTime(String gpsTime, String frequencyTime, String noiseTime){
 
-        String[] gpsSplitMils = gpsTime.split("\\.");
-        String gpsSplitTimeMils = gpsSplitMils[0];
-
-        String[] noiseSplitMils = noiseTime.split("\\.");
-        String noiseSplitTimeMils = noiseSplitMils[0];
-
-        String[] frequencySplitMils = frequencyTime.split("\\.");
-        String frequencySplitTimeMils = frequencySplitMils[0];
-
-
-        String[] GpsSplitTime = gpsSplitTimeMils.split(":");
-        int gpsHour = Integer.parseInt(GpsSplitTime[0]);
-        int gpsMin = Integer.parseInt(GpsSplitTime[1]);
-        int gpsSec = Integer.parseInt(GpsSplitTime[2]);
-
-        String[] noiseSplitTime = noiseSplitTimeMils.split(":");
-        int noiseHour = Integer.parseInt(noiseSplitTime[0]);
-        int noiseMin = Integer.parseInt(noiseSplitTime[1]);
-        int noiseSec = Integer.parseInt(noiseSplitTime[2]);
-
-        String[] frequencySplitTime = frequencySplitTimeMils.split(":");
-        int frequencyHour = Integer.parseInt(frequencySplitTime[0]);
-        int frequencyMin = Integer.parseInt(frequencySplitTime[1]);
-        int frequencySec = Integer.parseInt(frequencySplitTime[2]);
-
-        LocalTime fmtGpsTime = LocalTime.of(gpsHour, gpsMin, gpsSec);
-        LocalTime fmtFrequencyTime = LocalTime.of(frequencyHour, frequencyMin, frequencySec);
-        LocalTime fmtNoiseTime = LocalTime.of(noiseHour, noiseMin, noiseSec);
-
-
+        LocalTime fmtGpsTime = formatTime(gpsTime);
+        LocalTime fmtFrequencyTime = formatTime(frequencyTime);
+        LocalTime fmtNoiseTime = formatTime(noiseTime);
 
         List<LocalTime> timeList = Arrays.asList(fmtGpsTime, fmtFrequencyTime, fmtNoiseTime);
         LocalTime mostRecentTime = Collections.max(timeList);
@@ -140,6 +113,19 @@ public class GisService {
         log.info("Most Recent Time = [{}]", mostRecentTime);
 
         return mostRecentTime.toString();
+    }
+
+    public LocalTime formatTime(String time) {
+
+        String[] splitTime = time.split("\\.");
+        String splitTimeMils = splitTime[0];
+
+        String[] splitHourMinSec = splitTimeMils.split(":");
+        String hour = splitHourMinSec[0];
+        String min = splitHourMinSec[1];
+        String sec = splitHourMinSec[2];
+
+        return LocalTime.of(Integer.parseInt(hour), Integer.parseInt(min), Integer.parseInt(sec));
     }
 
     public Boolean isClean(Long noise, Long frequency){
