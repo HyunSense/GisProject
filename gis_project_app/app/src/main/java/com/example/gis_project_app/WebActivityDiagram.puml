@@ -1,0 +1,8 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:웹페이지 접속;
+stop
+
+@enduml
