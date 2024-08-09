@@ -35,5 +35,49 @@
 - 로컬 DB 자동화 모듈 구현
 - 조건에 따른 레이어 기능 구현 및 출력
 - 실시간 GPS 기능 구현
+---
 
-  
+### 시스템 구성도
+<img src="https://github.com/user-attachments/assets/8b3a452a-e902-46b9-90fa-634fb8b69ec1" width="70%" height="70%" />
+
+### ERD
+<img src="https://github.com/user-attachments/assets/0f165f8b-3e10-4374-9a23-de4875087777" width="85%" height="85%" />
+
+### UseCase Diagram
+<div>
+  <img src="https://github.com/user-attachments/assets/0bfbcf1c-fb24-4f11-9b61-447a5647adf1" width="45%" height="45%" />
+  <img src="https://github.com/user-attachments/assets/ae4973eb-47ce-4be4-add7-06db94df3a7b" width="45%" height="45%" />
+</div>
+
+### Activity Diagram (차량별 / 실시간)
+<div>
+  <img src="https://github.com/user-attachments/assets/fc60daa0-e108-405d-8626-58e13f55c17f" width="45%" height="45%" />
+  <img src="https://github.com/user-attachments/assets/718f72fc-3b3b-4331-81f6-d701565cdc9b" width="45%" height="45%" />
+</div>
+
+## 기능 화면
+
+### 지역레이어 선택 & 지도 유형 선택
+<img src="https://github.com/user-attachments/assets/d7ec3b1b-7741-40e8-b988-864b5e7ae507" width="90%" height="90%" /></b>
+- GeoServer, OpenLayers, Qgis 등 Gis 기술을 사용하여 지역 레이어를 등록후 View로 전달
+
+### 차량별 관제
+<img src="https://github.com/user-attachments/assets/4b3a700a-1d3a-472b-90fb-3cae03bebdb2" width="90%" height="90%" /></b>
+- 차량별, 날짜별 청소차량의 데이터를 PostGis를 통해 청소시간, 청소비율, 운행거리, 유효 운행거리 확인이 가능
+- 측정된 좌표들을 GeoServer를 통해 가공후 레이어 생성 후 View로 전달
+- 시각적 레이어를 통해 청소구간 확인이 가능 
+
+### 안드로이드 앱 센서데이터 측정/전송
+<img src="https://github.com/user-attachments/assets/e069d7dc-6648-45cb-9e33-96e4ce4e9aba" width="90%" height="90%" /></b>
+1. 사용자는 START 버튼을 누르고 탑승한 차량번호 입력
+2. 실시간 전송 시작 -> 실시간으로 사용자 GPS를 통해 운행경로를 저장
+
+### 실시간 다중 차량 관제
+<img src="https://github.com/user-attachments/assets/5dc6ad41-760e-45e3-8ebe-d1022f22aac0" width="90%" height="90%" /></b>
+1. App에서 실시간으로 차량의 gps 위치 전송
+2. Web에서 실시간 활성버튼을 통해 현재 운행중인 차량들의 위치 확인이 가능
+3. App에서 기록을 종료하면 실시간 데이터를 받기위한 차량별 임시테이블 삭제 
+
+
+
+
