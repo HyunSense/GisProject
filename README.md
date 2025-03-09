@@ -40,6 +40,15 @@
 ### 시스템 구성도
 <img src="https://github.com/user-attachments/assets/8b3a452a-e902-46b9-90fa-634fb8b69ec1" width="70%" height="70%" />
 
+- **데이터 수집 (안드로이드 앱)**  
+사용자가 청소 차량에 설치된 안드로이드 앱을 실행하면, 앱은 차량에 부착된 센서(예: 속도, 상태 등)와 GPS 모듈로부터 실시간 데이터를 수집합니다. Google Maps API를 활용해 차량의 위치를 좌표화하고, 이 데이터를 주기적으로(예: 5초 간격) Spring Boot로 구축된 REST API 서버로 전송합니다. 데이터는 JSON 형식으로 구조화되어 HTTP POST 요청을 통해 서버로 전달됩니다.
+- **데이터 처리 및 저장 (Spring Boot + PostgreSQL/PostGIS)**  
+Spring Boot 서버는 전송된 센서 데이터와 GPS 좌표를 수신한 후, 이를 처리하여 PostgreSQL 데이터베이스에 저장합니다. 여기서 PostGIS 확장 기능을 활용해 공간 데이터를 관리합니다. 예를 들어, 차량의 시작 지점(Point), 도착 지점(Point), 그리고 이동 경로(LineString)를 PostGIS의 공간 함수(예: ST_Distance, ST_MakePoint)로 변환 및 저장합니다.
+- **공간 데이터 제공 (GeoServer)**  
+저장된 공간 데이터는 GeoServer로 전달됩니다. GeoServer는 PostgreSQL/PostGIS에 연결되어 WMS(Web Map Service)프로토콜을 통해 데이터를 제공합니다. 용인시의 기반 지도 레이어는 GeoServer에서 사전에 설정된 SLD(Styled Layer Descriptor)를 통해 스타일링되며, 차량 경로 데이터는 실시간으로 레이어에 반영됩니다. 필요 시 QGIS를 활용해 GeoServer의 데이터를 검증하거나 추가적인 지도 편집 작업을 수행했습니다.
+- **시각화 (OpenLayers + JSP)**  
+관리자 인터페이스는 JSP 기반의 웹 애플리케이션으로 구성되며, OpenLayers를 통해 GeoServer에서 제공되는 지도 레이어와 차량 경로를 동적으로 렌더링합니다. OpenLayers는 WMS 요청을 통해 용인시 지도와 차량의 실시간 위치를 표시하고, 경로를 선(Line)으로 그려줍니다. 관리자는 웹 브라우저에서 차량의 시작 지점, 도착 지점, 이동 경로를 한눈에 확인할 수 있으며, 필요 시 줌인/줌아웃, 레이어 전환 등의 인터랙티브 기능을 활용할 수 있습니다.
+
 ### ERD
 <img src="https://github.com/user-attachments/assets/0f165f8b-3e10-4374-9a23-de4875087777" width="85%" height="85%" />
 
